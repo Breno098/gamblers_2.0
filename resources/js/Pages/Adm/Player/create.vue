@@ -23,7 +23,7 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" md="10">
+                                <v-col cols="12" md="4">
                                     <v-select
                                         v-model="form.position"
                                         :items="positions"
@@ -44,15 +44,7 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" md="2">
-                                    <v-card class="text-center" :color="colorPosition(form.position)" label>
-                                        <v-card-text>
-                                            {{ form.position ? form.position : '-' }}
-                                        </v-card-text>
-                                    </v-card>
-                                </v-col>
-
-                                <v-col cols="12" md="6">
+                                <v-col cols="12" md="4">
                                     <v-select
                                         v-model="form.country_id"
                                         :items="countrys"
@@ -68,7 +60,7 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" md="6">
+                                <v-col cols="12" md="4">
                                     <v-select
                                         v-model="form.team_id"
                                         :items="teams"
@@ -134,17 +126,6 @@
                     this.$inertia.put(route('adm.player.update', { player: this.form }), this.form);
                 }
             },
-            colorPosition(position){
-                switch (position) {
-                    case 'GO': return 'brown';
-                    case 'ZAG': return 'primary';
-                    case 'LT': return 'primary';
-                    case 'VOL': return 'green';
-                    case 'MEI': return 'green';
-                    case 'ATA': return 'red';
-                    default: return 'rgba(0, 0, 0, 0.5)';
-                }
-            }
         },
     }
 </script>
