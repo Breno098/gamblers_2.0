@@ -65,6 +65,7 @@
             { title: 'Liga',    icon: 'mdi-team', route: 'adm.league.index' },
             { title: 'Jogador', icon: 'mdi-team', route: 'adm.player.index' },
             { title: 'Estádio', icon: 'mdi-team', route: 'adm.stadium.index' },
+            { title: 'Jogo',    icon: 'mdi-user', route: 'adm.game.index' },
             { title: 'Perfil',  icon: 'mdi-user', route: 'profile.show' },
         ],
         right: null,

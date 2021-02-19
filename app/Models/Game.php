@@ -18,8 +18,8 @@ class Game extends Model
     ];
 
     protected $casts = [
-        'date' => 'date',
-        'time' => 'time'
+        'date' => 'datetime:Y-m-d',
+        'time' => 'datetime:H:i'
     ];
 
     public function user()
@@ -29,16 +29,16 @@ class Game extends Model
 
     public function teamHome()
     {
-        return $this->hasOne(Team::class, 'team_home_id', 'id');
+        return $this->belongsTo(Team::class, 'team_home_id', 'id');
     }
 
     public function teamGuest()
     {
-        return $this->hasOne(Team::class, 'team_guest_id', 'id');
+        return $this->belongsTo(Team::class, 'team_guest_id', 'id');
     }
 
-    public function stadia()
+    public function stadium()
     {
-        return $this->hasOne(Stadium::class);
+        return $this->belongsTo(Stadium::class);
     }
 }

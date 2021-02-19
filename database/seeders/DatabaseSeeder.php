@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
+use App\Models\Game;
 use App\Models\League;
 use App\Models\Player;
 use App\Models\Stadium;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->createTeams();
         $this->createPlayers();
         $this->createStadia();
+        $this->createGames();
     }
 
     public function createCountries()
@@ -122,6 +124,26 @@ class DatabaseSeeder extends Seeder
 
         foreach ($stadia as $key => $value) {
             Stadium::create($value);
+        }
+    }
+
+    public function createGames()
+    {
+        $games = [
+            [
+                'id' => 1,
+                'date' => now(),
+                'time' => now(),
+                'status' => 'Open',
+                'type'  => 'oficial',
+                'team_home_id' => 1,
+                'team_guest_id' => 2,
+                'stadium_id' => 1
+            ],
+        ];
+
+        foreach ($games as $key => $value) {
+            Game::create($value);
         }
     }
 }

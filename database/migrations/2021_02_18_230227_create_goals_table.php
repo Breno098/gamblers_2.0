@@ -16,7 +16,7 @@ class CreateGoalsTable extends Migration
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
             $table->date('date')->nullable();
-            $table->time('time')->nullable();
+            $table->string('minutes')->nullable();
             $table->foreignId('team_id')->constrained();
             $table->foreignId('player_id')->constrained();
             $table->timestamps();
