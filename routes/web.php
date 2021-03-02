@@ -3,6 +3,7 @@
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\OficialGameController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\StadiumController;
@@ -37,6 +38,8 @@ Route::prefix('adm')->name('adm.')->group(function () {
     Route::resource('stadium', StadiumController::class);
 
     Route::resource('game', GameController::class);
+
+    Route::resource('oficial-game', OficialGameController::class);
 });
 
 // Route::middleware(['auth:sanctum', 'verified'])->group(function() {
