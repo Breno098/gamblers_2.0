@@ -24,7 +24,7 @@
                                             <v-card class="text-center">
                                                 <v-img
                                                     class="white--text align-end"
-                                                    src="https://www.kindpng.com/picc/m/251-2519524_soccer-cone-clipart-ball-bola-de-futebol-com.png"
+                                                    :src="origin + '/storage/app/public/teams/20210304003317real.jpg'"
                                                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                                                 >
                                                     <v-card-title> {{ game.team_home.name }} </v-card-title>
@@ -72,7 +72,11 @@
         },
         data: () => ({
             deleted: {},
+            origin: ''
         }),
+        mounted(){
+            this.origin = window.location.origin;
+        },
         methods: {
             _edit(id){
                 this.$inertia.get( route('adm.game.edit',{ id }) );

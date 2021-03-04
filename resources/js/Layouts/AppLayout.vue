@@ -66,6 +66,11 @@
     data: () => ({
         drawer: null,
         menu: [{
+                title: 'Home',
+                items: [
+                    { title: 'Dashboard',   icon: 'mdi-team', route: 'dashboard' },
+                ]
+            }, {
                 title: 'Registros',
                 items: [
                     { title: 'Times',   icon: 'mdi-team', route: 'adm.team.index' },

@@ -10,7 +10,7 @@ class Team extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'country_id'
+        'name', 'name_photo', 'country_id'
     ];
 
     protected $hidden = [

@@ -26,32 +26,22 @@ Route::get('/', function () {
     return Inertia::render('Auth/Login');
 });
 
-Route::prefix('adm')->name('adm.')->group(function () {
-    Route::resource('team', TeamController::class);
 
-    Route::resource('country', CountryController::class);
 
-    Route::resource('league', LeagueController::class);
+Route::middleware(['auth:sanctum', 'verified'])->group(function() {
+    Route::get('/dashboard', function(){
+        return Inertia::render('Adm/Dashboard');
+    })->name('dashboard');
 
-    Route::resource('player', PlayerController::class);
-
-    Route::resource('stadium', StadiumController::class);
-
-    Route::resource('game', GameController::class);
-
-    Route::resource('oficial-game', OficialGameController::class);
+    Route::prefix('adm')->name('adm.')->group(function () {
+        Route::resource('team', TeamController::class);
+        Route::resource('country', CountryController::class);
+        Route::resource('league', LeagueController::class);
+        Route::resource('player', PlayerController::class);
+        Route::resource('stadium', StadiumController::class);
+        Route::resource('game', GameController::class);
+        Route::resource('oficial-game', OficialGameController::class);
+    });
 });
-
-// Route::middleware(['auth:sanctum', 'verified'])->group(function() {
-
-//     Route::prefix('adm')->name('adm.')->group(function () {
-//         Route::resource('team', TeamController::class);
-
-//         Route::resource('country', CountryController::class);
-
-//         Route::resource('league', LeagueController::class);
-//     });
-
-// });
 
 

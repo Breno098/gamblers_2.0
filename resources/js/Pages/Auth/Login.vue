@@ -1,92 +1,113 @@
-<template>
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+ <template>
+  <v-app>
+       <v-main>
+            <v-container fluid fill-height>
+                <v-layout flex align-center justify-center>
+                    <v-flex xs12 sm4 elevation-6>
+                        <v-card elevation="24">
+                             <v-img
+                                class="white--text align-end"
+                                height="400px"
+                                src="https://cdn.jornaldebrasilia.com.br/wp-content/uploads/2020/04/futebol-brasileiro.jpg"
+                            >
+                                <v-card-title>Fut Gamblers 2.0</v-card-title>
+                            </v-img>
+                            <v-card-text class="pt-4">
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            v-model="form.email"
+                                            label="Email"
+                                            color="green darken-1"
+                                            required
+                                        ></v-text-field>
+                                        <div v-if="errors.email">
+                                            <v-alert dense type="error" text>
+                                                 {{ errors.email === 'The email field is required.' ? 'Insira o email' : errors.email === 'These credentials do not match our records.' ? 'Email ou senha incorretos' : errors.email }}
+                                            </v-alert>
+                                        </div>
+                                    </v-col>
 
-        <jet-validation-errors class="mb-4" />
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            v-model="form.password"
+                                            label="Password"
+                                            color="green darken-1"
+                                            required
+                                            type="password"
+                                        ></v-text-field>
+                                        <div v-if="errors.password">
+                                            <v-alert dense type="error" text>
+                                                {{ errors.password === 'The password field is required.' ? 'Insira a senha' : errors.password}}
+                                            </v-alert>
+                                        </div>
+                                    </v-col>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
+                                    <v-col cols="12">
+                                        <v-checkbox
+                                            v-model="form.remember"
+                                            label="Do you agree?"
+                                            required
+                                        ></v-checkbox>
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
 
-        <form @submit.prevent="submit">
-            <div>
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus />
-            </div>
-
-            <div class="mt-4">
-                <jet-label for="password" value="Password" />
-                <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <jet-checkbox name="remember" v-model="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
-                </inertia-link>
-
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Login
-                </jet-button>
-            </div>
-        </form>
-    </jet-authentication-card>
+                            <!-- <v-card-actions>
+                                <v-btn text block>
+                                    <inertia-link v-if="true" :href="route('password.request')" style="text-decoration: none; color: white">
+                                        Forgot your password?
+                                    </inertia-link>
+                                </v-btn>
+                            </v-card-actions>
+                            <v-divider/> -->
+                            <v-card-actions>
+                                <v-btn color="success" v-on:click="submit" block text>
+                                    Entrar
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+        </v-main>
+  </v-app>
 </template>
 
 <script>
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo'
-    import JetButton from '@/Jetstream/Button'
-    import JetInput from '@/Jetstream/Input'
-    import JetCheckbox from '@/Jetstream/Checkbox'
-    import JetLabel from '@/Jetstream/Label'
-    import JetValidationErrors from '@/Jetstream/ValidationErrors'
-
-    export default {
-        components: {
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
-            JetButton,
-            JetInput,
-            JetCheckbox,
-            JetLabel,
-            JetValidationErrors
-        },
-
-        props: {
-            canResetPassword: Boolean,
-            status: String
-        },
-
-        data() {
-            return {
-                form: this.$inertia.form({
-                    email: '',
-                    password: '',
-                    remember: false
-                })
-            }
-        },
-
-        methods: {
-            submit() {
-                this.form
-                    .transform(data => ({
-                        ... data,
-                        remember: this.form.remember ? 'on' : ''
-                    }))
-                    .post(this.route('login'), {
-                        onFinish: () => this.form.reset('password'),
-                    })
-            }
+  export default {
+    data() {
+        return {
+            form: this.$inertia.form({
+                email: '',
+                password: '',
+                remember: false
+            })
         }
-    }
+    },
+    props: {
+        canResetPassword: Boolean,
+        status: String,
+        errors: Object,
+    },
+    methods: {
+        submit() {
+            this.form.transform(data => ({
+                ... data,
+                remember: this.form.remember ? 'on' : ''
+            }))
+            .post(this.route('login'), {
+                onFinish: () => this.form.reset('password'),
+            })
+        },
+    },
+    mounted(){
+        this.$vuetify.theme.dark = true;
+    },
+  }
 </script>
+
+
+<style>
+@import 'vuetify/dist/vuetify.min.css';
+</style>
