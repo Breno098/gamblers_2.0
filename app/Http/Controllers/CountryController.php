@@ -66,7 +66,7 @@ class CountryController extends Controller
             Country::find($id)->delete();
         } catch(Exception $e){
             return $this->redirectErrorPage(
-                $e->getCode() === 23000 ? "Por esse país estar vinculado a um time, você não pode apaga-lo. Para deletar o registro, atualize ou exclua suas dependencias." : $e->getMessage(),
+                $e->getCode() === '23000' ? "Por esse país estar vinculado a um time, você não pode apaga-lo. Para deletar o registro, atualize ou exclua suas dependencias." : $e->getMessage(),
                 $e->getCode()
             );
         }

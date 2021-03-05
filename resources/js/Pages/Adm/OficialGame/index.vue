@@ -16,33 +16,73 @@
                     <v-card-text>
                         <v-row>
                             <v-col cols="12" md="6" v-for="game in games" :key="game.id">
-                                <v-card color="rgba(255, 255, 255, 0.1" class="px-4">
+                                <v-card color="rgba(255, 255, 255, 0.1" class="px-4 my-1">
+                                    <v-card-title class="d-flex justify-end" style="font-size: 25px">
+                                         {{ game.stadium.name }} | {{ game.stadium.country.name }}
+                                    </v-card-title>
                                     <v-row>
-                                        <v-col cols="12">
-                                        </v-col>
-                                        <v-col cols="4">
-                                            <v-card class="text-center">
+                                        <v-col cols="6">
+                                            <v-card class="text-center" shaped>
                                                 <v-img
                                                     class="white--text align-end"
-                                                    :src="origin + '/storage/app/public/teams/20210304003317real.jpg'"
-                                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                                    :src="game.team_home.name_photo ? team_photo_base + game.team_home.name_photo : ''"
+                                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,0.9)"
+                                                    max-width="400"
+                                                    max-height="400"
                                                 >
                                                     <v-card-title> {{ game.team_home.name }} </v-card-title>
                                                 </v-img>
                                             </v-card>
                                         </v-col>
-                                        <v-col cols="4">
-                                            <v-card class="text-center">
+                                        <v-col cols="6">
+                                            <v-card class="text-center" shaped>
                                                 <v-img
                                                     class="white--text align-end"
-                                                    src="https://www.kindpng.com/picc/m/251-2519524_soccer-cone-clipart-ball-bola-de-futebol-com.png"
-                                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                                    :src="game.team_guest.name_photo ? team_photo_base + game.team_guest.name_photo : ''"
+                                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0, 0.9)"
                                                 >
                                                     <v-card-title> {{ game.team_guest.name }} </v-card-title>
                                                 </v-img>
                                             </v-card>
                                         </v-col>
-                                         <v-col cols="12">
+                                        <v-col cols="12">
+                                            <v-row>
+                                                <v-col cols="6">
+                                                    <v-card
+                                                        color="rgba(255, 255, 255, 0.1"
+                                                        outlined
+                                                        style="width: 100%; text-align: center"
+                                                    >
+                                                        <v-card-text>
+                                                            <v-icon left>mdi-calendar</v-icon> {{ dateFormat(game.date) }}
+                                                        </v-card-text>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-col cols="6">
+                                                     <v-card
+                                                        color="rgba(255, 255, 255, 0.1"
+                                                        outlined
+                                                        style="width: 100%; text-align: center"
+                                                    >
+                                                        <v-card-text>
+                                                            <v-icon left>mdi-alarm-check</v-icon> {{ game.time }}
+                                                        </v-card-text>
+                                                    </v-card>
+                                                </v-col>
+                                            </v-row>
+
+                                            <v-card
+                                                class="mt-2"
+                                                :color="game.status === 'open' ? 'info' : 'success'"
+                                                outlined
+                                                style="width: 100%; text-align: center"
+                                            >
+                                                <v-card-text>
+                                                    <v-icon left>{{ game.status === 'open' ? 'mdi-play' : 'mdi-check' }}</v-icon> {{ game.status === 'open' ? 'Aberto' : 'Encerrado' }}
+                                                </v-card-text>
+                                            </v-card>
+                                        </v-col>
+                                        <v-col cols="12">
                                             <v-btn block color="green darken-1" outlined>
                                                 Calcular pontuação <v-icon dark>mdi-plus</v-icon>
                                             </v-btn>
@@ -72,10 +112,10 @@
         },
         data: () => ({
             deleted: {},
-            origin: ''
+            team_photo_base: ''
         }),
         mounted(){
-            this.origin = window.location.origin;
+            this.team_photo_base = window.location.origin + '/storage/teams/';
         },
         methods: {
             _edit(id){

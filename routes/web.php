@@ -34,13 +34,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     })->name('dashboard');
 
     Route::prefix('adm')->name('adm.')->group(function () {
-        Route::resource('team', TeamController::class);
         Route::resource('country', CountryController::class);
         Route::resource('league', LeagueController::class);
         Route::resource('player', PlayerController::class);
         Route::resource('stadium', StadiumController::class);
         Route::resource('game', GameController::class);
         Route::resource('oficial-game', OficialGameController::class);
+        Route::resource('team', TeamController::class);
+        Route::post('/team/updateWithImage', [TeamController::class, 'updateWithImage'])->name('team.update-with-image');
     });
 });
 

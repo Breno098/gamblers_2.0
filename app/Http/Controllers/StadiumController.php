@@ -87,7 +87,7 @@ class StadiumController extends Controller
             Stadium::find($id)->delete();
         } catch(Exception $e){
             return $this->redirectErrorPage(
-                $e->getCode() === 23000 ? "Para deletar o registro, atualize ou exclua suas dependencias." : $e->getMessage(),
+                $e->getCode() === '23000' ? "Para deletar o registro, atualize ou exclua suas dependencias." : $e->getMessage(),
                 $e->getCode()
             );
         }

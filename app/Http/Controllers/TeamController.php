@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\Team;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
@@ -39,12 +40,11 @@ class TeamController extends Controller
             'name'       => 'required',
             'country_id' => 'required',
             'leagues'    => 'required',
-            'photo'      => 'required|file|image'
+            'photo'      => 'image'
         ], [
             'name.required' => 'Nome obrigatório.',
             'country_id.required' => 'Escolha um país.',
             'leagues.required' => 'Selecione as ligas.',
-            'photo.required' => 'Selecione uma foto.',
             'photo.image' => 'Parece que o arquivo não é uma imagem. Escolha uma foto e tente novamente.'
         ]);
 
@@ -79,6 +79,11 @@ class TeamController extends Controller
 
     public function update(Request $request, $id)
     {
+
+    }
+
+    public function updateWithImage(Request $request)
+    {
         $request->validate([
             'name'       => 'required',
             'country_id' => 'required',
@@ -86,15 +91,26 @@ class TeamController extends Controller
         ], [
             'name.required' => 'Nome obrigatório.',
             'country_id.required' => 'Escolha um país.',
-            'leagues.required' => 'Seleciona as ligas.',
+            'leagues.required' => 'Selecione as ligas.',
         ]);
 
-        if($id){
-            $team= Team::find($id);
+        $name_photo = $request->file('photo') ? Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName() : false;
+
+        if($name_photo && !$request->file('photo')->storeAs('teams', $name_photo)){
+            return $this->redirectErrorPage("Erro ao fazer o upload da foto");
+        }
+
+        if($request->id){
+            $team = Team::find($request->id);
+
+            if($name_photo && Storage::exists('teams/' . $team->name_photo)){
+                Storage::delete('teams/' . $team->name_photo);
+            }
 
             $team->update([
                 'name' => $request->name,
                 'country_id' => $request->country_id,
+                'name_photo' => $name_photo ?: $team->name_photo
             ]);
 
             $team->leagues()->sync($request->leagues);
@@ -102,6 +118,8 @@ class TeamController extends Controller
             return Redirect::route('adm.team.index');
         }
     }
+
+
 
     public function show($id)
     {
@@ -111,13 +129,17 @@ class TeamController extends Controller
     public function destroy($id)
     {
         try {
-            $team= Team::find($id);
+            $team = Team::find($id);
+            $leagues = $team->leagues;
             $team->leagues()->sync([]);
             $team->delete();
+
             return Redirect::route('adm.team.index');
         } catch(\Exception $e){
+            $team->leagues()->sync($leagues);
+
             return $this->redirectErrorPage(
-                $e->getCode() === 23000 ? "Para deletar o registro, atualize ou exclua suas dependencias." : $e->getMessage(),
+                $e->getCode() === '23000' ? "Para deletar o registro, atualize ou exclua suas dependencias." : $e->getMessage(),
                 $e->getCode()
             );
         }

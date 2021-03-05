@@ -62,7 +62,7 @@
                                         max-height="300"
                                         max-width="300"
                                         gradient="to left, rgba(0,0,0,0), rgba(0,0,0,0.7)"
-                                        :src="imageUrl ? imageUrl : 'https://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/cindra/imagens/sem.jpg.gif/image'"
+                                        :src="imageUrl ? imageUrl : no_image"
                                     >
                                         <v-card-title>
                                              <v-file-input
@@ -113,12 +113,17 @@
                 photo: null,
                 id: null
             },
-            imageUrl: ''
+            imageUrl: '',
+            team_photo_base: '',
+            no_image: ''
         }),
         mounted(){
+            this.team_photo_base = window.location.origin + '/storage/teams/';
+            this.no_image = window.location.origin + '/storage/geral/no_image.png';
+
             if(this.team){
                 this.form.id = this.team.id;
-                this.imageUrl = this.team.name_photo;
+                this.imageUrl = this.team_photo_base + this.team.name_photo;
                 this.form.name = this.team.name;
                 this.form.country_id = this.team.country_id;
                 this.team.leagues.map(league => {
@@ -133,15 +138,17 @@
                 data.append('name', this.form.name || '')
                 data.append('country_id', this.form.country_id || '')
                 data.append('leagues', this.form.leagues || '')
-                data.append('photo', this.form.photo || '')
+                if(this.form.photo !== undefined){
+                    data.append('photo', this.form.photo || '')
+                }
 
                 if(!this.team){
                     this.$inertia.post(route('adm.team.store'), data);
                 } else {
-                    this.$inertia.put(route('adm.team.update', { team: this.form }), this.form);
+                    this.$inertia.post(route('adm.team.update-with-image'), data);
                 }
             },
-            onFilePicked(e) {
+            onFilePicked() {
                 if (this.form.photo !== undefined) {
                     const fr = new FileReader()
                     fr.readAsDataURL(this.form.photo)

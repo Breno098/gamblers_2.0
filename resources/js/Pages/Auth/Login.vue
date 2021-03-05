@@ -20,6 +20,7 @@
                                             label="Email"
                                             color="green darken-1"
                                             required
+                                            v-on:keyup.enter="submit"
                                         ></v-text-field>
                                         <div v-if="errors.email">
                                             <v-alert dense type="error" text>
@@ -35,6 +36,7 @@
                                             color="green darken-1"
                                             required
                                             type="password"
+                                            v-on:keyup.enter="submit"
                                         ></v-text-field>
                                         <div v-if="errors.password">
                                             <v-alert dense type="error" text>
