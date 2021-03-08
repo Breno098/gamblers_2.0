@@ -16,7 +16,7 @@ class OficialGameController extends Controller
 {
     public function index()
     {
-        $games = Game::where('type', 'oficial')->orderBy('date')->get();
+        $games = Game::where('type', 'oficial')->orderBy('date', 'desc')->get();
         foreach ($games as &$game) {
             $game->country;
             $game->stadium->country;

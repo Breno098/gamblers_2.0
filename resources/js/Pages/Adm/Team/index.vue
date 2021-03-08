@@ -39,6 +39,17 @@
                                     <td>{{row.item.name}}</td>
                                     <td>{{row.item.country.name}}</td>
                                     <td>
+                                        <v-img
+                                            class="white--text align-end rounded-lg"
+                                            :src="row.item.name_photo ? team_photo_base + row.item.name_photo : ''"
+                                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0, 0.9)"
+                                            max-height="50"
+                                            max-width="50"
+                                            shaped
+                                        >
+                                        </v-img>
+                                    </td>
+                                    <td>
                                         <v-chip class="ma-2" v-for="league in row.item.leagues" :key="league.id" color="primary" label>
                                             {{ league.name }}
                                         </v-chip>
@@ -123,10 +134,17 @@
                 text: 'País',
                 value: 'country.name'
             }, {
+                text: 'Logo',
+                sortable: false,
+            }, {
                 text: 'Liga',
                 value: 'leagues'
             }, {} ],
+            team_photo_base: '',
         }),
+        mounted(){
+            this.team_photo_base = window.location.origin + '/storage/teams/';
+        },
         methods: {
             _edit(id){
                 this.$inertia.get( route('adm.team.edit',{ id }) );
