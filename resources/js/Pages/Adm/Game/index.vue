@@ -50,6 +50,7 @@
                                     <td>{{row.item.team_guest.name}}</td>
                                     <td>{{row.item.stadium.name}}</td>
                                     <td>{{row.item.stadium.country.name}}</td>
+                                    <td>{{row.item.competition.name}}</td>
                                     <td>
                                         <v-chip class="ma-2" label :color="row.item.status === 'open' ? 'success' : 'warning'">
                                             {{row.item.status === 'open' ? 'Aberto' : 'Finalizado'}}
@@ -151,6 +152,9 @@
             }, {
                 text: 'Local',
                 value: 'stadium.country.name'
+            }, {
+                text: 'Competição',
+                value: 'competition.name'
             }, {
                 text: 'Status',
                 value: 'status'

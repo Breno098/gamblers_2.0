@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competition;
 use App\Models\Country;
 use App\Models\Game;
 use App\Models\Player;
@@ -19,6 +20,7 @@ class GameController extends Controller
         $games = Game::where('type', 'oficial')->orderBy('date')->get();
         foreach ($games as &$game) {
             $game->country;
+            $game->competition;
             $game->stadium->country;
             $game->teamHome->country;
             $game->teamGuest->country;
@@ -35,6 +37,7 @@ class GameController extends Controller
             'country' => Country::orderBy('name')->get(),
             'teams' => Team::orderBy('name')->get(),
             'stadia' => Stadium::orderBy('name')->get(),
+            'competitions' => Competition::where('active', 1)->orderBy('name')->get()
         ]);
     }
 
@@ -44,12 +47,14 @@ class GameController extends Controller
             'team_home_id' => 'required',
             'team_guest_id' => 'required',
             'stadium_id' => 'required',
+            'competition_id' => 'required',
             'date' => 'required|date',
             'time' => 'required'
         ], [
             'team_home_id.required' => 'Informe o time mandante.',
             'team_guest_id.required' => 'Informe o time visitante.',
             'stadium_id.required' => 'Selecione o estádio.',
+            'competition_id.required' => 'Selecione a competição.',
             'date.required' => 'Informe a data da partida.',
             'time.required' => 'Informe o horário da partida.'
         ]);
@@ -58,6 +63,7 @@ class GameController extends Controller
             'team_home_id' => $request->team_home_id,
             'team_guest_id' => $request->team_guest_id,
             'stadium_id' => $request->stadium_id,
+            'competition_id' => $request->competition_id,
             'date' => $request->date,
             'time' => $request->time,
             'type' => 'oficial',
@@ -74,6 +80,7 @@ class GameController extends Controller
             'country' => Country::orderBy('name')->get(),
             'teams' => Team::orderBy('name')->get(),
             'stadia' => Stadium::orderBy('name')->get(),
+            'competitions' => Competition::where('active', 1)->orderBy('name')->get()
         ]);
     }
 
@@ -83,12 +90,14 @@ class GameController extends Controller
             'team_home_id' => 'required',
             'team_guest_id' => 'required',
             'stadium_id' => 'required',
+            'competition_id' => 'required',
             'date' => 'required|date',
             'time' => 'required'
         ], [
             'team_home_id.required' => 'Informe o time mandante.',
             'team_guest_id.required' => 'Informe o time visitante.',
             'stadium_id.required' => 'Selecione o estádio.',
+            'competition_id.required' => 'Selecione a competição.',
             'date.required' => 'Informe a data da partida.',
             'time.required' => 'Informe o horário da partida.'
         ]);
@@ -98,6 +107,7 @@ class GameController extends Controller
                 'team_home_id' => $request->team_home_id,
                 'team_guest_id' => $request->team_guest_id,
                 'stadium_id' => $request->stadium_id,
+                'competition_id' => $request->competition_id,
                 'date' => $request->date,
                 'time' => $request->time,
                 'type' => 'oficial',

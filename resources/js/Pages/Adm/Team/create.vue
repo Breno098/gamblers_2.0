@@ -41,8 +41,8 @@
 
                                 <v-col cols="12">
                                     <v-select
-                                        v-model="form.leagues"
-                                        :items="leagues"
+                                        v-model="form.competitions"
+                                        :items="competitions"
                                         label="Liga"
                                         required
                                         item-text="name"
@@ -52,8 +52,8 @@
                                         color="green darken-1"
                                         v-on:keyup.enter="store"
                                     ></v-select>
-                                    <div v-if="errors.leagues">
-                                        <v-alert dense type="error" text>{{ errors.leagues }}</v-alert>
+                                    <div v-if="errors.competitions">
+                                        <v-alert dense type="error" text>{{ errors.competitions }}</v-alert>
                                     </div>
                                 </v-col>
 
@@ -101,7 +101,7 @@
         },
         props: {
             countrys: Array,
-            leagues: Array,
+            competitions: Array,
             team: Object,
             errors: Object,
         },
@@ -109,25 +109,22 @@
             form: {
                 name: '',
                 country_id: '',
-                leagues: [],
+                competitions: [],
                 photo: null,
                 id: null
             },
             imageUrl: '',
-            team_photo_base: '',
-            no_image: ''
+            team_photo_base: window.location.origin + '/storage/teams/',
+            no_image: window.location.origin + '/storage/geral/no_image.png'
         }),
         mounted(){
-            this.team_photo_base = window.location.origin + '/storage/teams/';
-            this.no_image = window.location.origin + '/storage/geral/no_image.png';
-
             if(this.team){
                 this.form.id = this.team.id;
                 this.imageUrl = this.team_photo_base + this.team.name_photo;
                 this.form.name = this.team.name;
                 this.form.country_id = this.team.country_id;
-                this.team.leagues.map(league => {
-                    this.form.leagues.push(league.id);
+                this.team.competitions.map(competition => {
+                    this.form.competitions.push(competition.id);
                 });
             }
         },
@@ -137,7 +134,7 @@
                 data.append('id', this.form.id || '')
                 data.append('name', this.form.name || '')
                 data.append('country_id', this.form.country_id || '')
-                data.append('leagues', this.form.leagues || '')
+                data.append('competitions', this.form.competitions || '')
                 if(this.form.photo !== undefined){
                     data.append('photo', this.form.photo || '')
                 }

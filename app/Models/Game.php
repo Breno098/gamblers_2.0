@@ -10,7 +10,7 @@ class Game extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'time', 'status', 'type', 'user_id', 'team_home_id', 'team_guest_id', 'stadium_id'
+        'date', 'time', 'status', 'type', 'user_id', 'team_home_id', 'team_guest_id', 'stadium_id', 'competition_id'
     ];
 
     protected $hidden = [
@@ -40,5 +40,10 @@ class Game extends Model
     public function stadium()
     {
         return $this->belongsTo(Stadium::class);
+    }
+
+    public function competition()
+    {
+        return $this->belongsTo(Competition::class);
     }
 }

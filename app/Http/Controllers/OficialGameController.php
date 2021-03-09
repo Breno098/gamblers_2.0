@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competition;
 use App\Models\Country;
 use App\Models\Game;
 use App\Models\Player;
@@ -16,15 +17,24 @@ class OficialGameController extends Controller
 {
     public function index()
     {
-        $games = Game::where('type', 'oficial')->orderBy('date', 'desc')->get();
+        $competitions = Competition::where('active', 1)->orderBy('name')->get();
+
+        return Inertia::render('Adm/OficialGame/competitions', [
+            'competitions' => $competitions,
+        ]);
+    }
+
+    public function listByCompetition(Request $request)
+    {
+        $games = Game::where('type', 'oficial')->where('competition_id', $request->competition_id)->orderBy('date', 'desc')->get();
         foreach ($games as &$game) {
-            $game->country;
+            $game->competition;
             $game->stadium->country;
-            $game->teamHome->country;
-            $game->teamGuest->country;
+            $game->teamHome;
+            $game->teamGuest;
         }
 
-        return Inertia::render('Adm/OficialGame', [
+        return Inertia::render('Adm/OficialGame/competition', [
             'games' => $games,
         ]);
     }

@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
-use App\Models\League;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Team;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 

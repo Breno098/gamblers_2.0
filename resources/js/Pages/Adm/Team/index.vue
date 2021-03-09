@@ -50,8 +50,8 @@
                                         </v-img>
                                     </td>
                                     <td>
-                                        <v-chip class="ma-2" v-for="league in row.item.leagues" :key="league.id" color="primary" label>
-                                            {{ league.name }}
+                                        <v-chip class="ma-2" v-for="competition in row.item.competitions" :key="competition.id" color="primary" label>
+                                            {{ competition.name }}
                                         </v-chip>
                                     </td>
                                     <td>
@@ -137,8 +137,8 @@
                 text: 'Logo',
                 sortable: false,
             }, {
-                text: 'Liga',
-                value: 'leagues'
+                text: 'Competição',
+                value: 'competitions'
             }, {} ],
             team_photo_base: '',
         }),

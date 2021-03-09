@@ -22,9 +22,9 @@ class Team extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function leagues()
+    public function competitions()
     {
-        return $this->belongsToMany(League::class, 'league_team', 'team_id', 'league_id');
+        return $this->belongsToMany(Competition::class, 'competition_team', 'team_id', 'competition_id');
     }
 
     public function players()

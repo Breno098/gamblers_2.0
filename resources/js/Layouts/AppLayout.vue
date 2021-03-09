@@ -63,12 +63,12 @@
             }, {
                 title: 'Registros',
                 items: [
-                    { title: 'Times',   icon: 'mdi-team', route: 'adm.team.index' },
-                    { title: 'País',    icon: 'mdi-team', route: 'adm.country.index' },
-                    { title: 'Liga',    icon: 'mdi-team', route: 'adm.league.index' },
-                    { title: 'Jogador', icon: 'mdi-team', route: 'adm.player.index' },
-                    { title: 'Estádio', icon: 'mdi-team', route: 'adm.stadium.index' },
-                    { title: 'Jogo',    icon: 'mdi-user', route: 'adm.game.index' },
+                    { title: 'Times',       icon: 'mdi-team', route: 'adm.team.index' },
+                    { title: 'País',        icon: 'mdi-team', route: 'adm.country.index' },
+                    { title: 'Competição',  icon: 'mdi-team', route: 'adm.competition.index' },
+                    { title: 'Jogador',     icon: 'mdi-team', route: 'adm.player.index' },
+                    { title: 'Estádio',     icon: 'mdi-team', route: 'adm.stadium.index' },
+                    { title: 'Jogo',        icon: 'mdi-user', route: 'adm.game.index' },
                 ]
             }, {
                 title: 'Jogos',

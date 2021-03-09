@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competition;
 use App\Models\Country;
-use App\Models\League;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Team;
@@ -18,7 +18,7 @@ class TeamController extends Controller
         $teams = Team::orderBy('name')->get();
         foreach ($teams as &$team) {
             $team->country;
-            $team->leagues;
+            $team->competitions;
         }
 
         return Inertia::render('Adm/Team', [
@@ -30,7 +30,7 @@ class TeamController extends Controller
     {
         return Inertia::render('Adm/Team/create', [
             'countrys' => Country::orderBy('name')->get(),
-            'leagues' => League::where('active', 1)->orderBy('name')->get()
+            'competitions' => Competition::where('active', 1)->orderBy('name')->get()
         ]);
     }
 
@@ -39,12 +39,12 @@ class TeamController extends Controller
         $request->validate([
             'name'       => 'required',
             'country_id' => 'required',
-            'leagues'    => 'required',
+            'competitions' => 'required',
             'photo'      => 'image'
         ], [
             'name.required' => 'Nome obrigatório.',
             'country_id.required' => 'Escolha um país.',
-            'leagues.required' => 'Selecione as ligas.',
+            'competitions.required' => 'Selecione as competição.',
             'photo.image' => 'Parece que o arquivo não é uma imagem. Escolha uma foto e tente novamente.'
         ]);
 
@@ -59,7 +59,7 @@ class TeamController extends Controller
             'country_id' => $request->country_id,
             'name_photo' => $name_photo
         ]);
-        $team->leagues()->sync($request->leagues);
+        $team->competitions()->sync($request->competitions);
 
         return Redirect::route('adm.team.index');
     }
@@ -68,11 +68,11 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail($id);
         $team->country;
-        $team->leagues;
+        $team->competitions;
 
         return Inertia::render('Adm/Team/create', [
             'countrys' =>  Country::orderBy('name')->get(),
-            'leagues' => League::where('active', 1)->orderBy('name')->get(),
+            'competitions' => Competition::where('active', 1)->orderBy('name')->get(),
             'team' => $team
         ]);
     }
@@ -87,11 +87,11 @@ class TeamController extends Controller
         $request->validate([
             'name'       => 'required',
             'country_id' => 'required',
-            'leagues'    => 'required',
+            'competitions'    => 'required',
         ], [
             'name.required' => 'Nome obrigatório.',
             'country_id.required' => 'Escolha um país.',
-            'leagues.required' => 'Selecione as ligas.',
+            'competitions.required' => 'Selecione as ligas.',
         ]);
 
         $name_photo = $request->file('photo') ? Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName() : false;
@@ -113,7 +113,7 @@ class TeamController extends Controller
                 'name_photo' => $name_photo ?: $team->name_photo
             ]);
 
-            $team->leagues()->sync($request->leagues);
+            $team->competitions()->sync($request->competitions);
 
             return Redirect::route('adm.team.index');
         }
@@ -130,13 +130,13 @@ class TeamController extends Controller
     {
         try {
             $team = Team::find($id);
-            $leagues = $team->leagues;
-            $team->leagues()->sync([]);
+            $competitions = $team->competitions;
+            $team->competitions()->sync([]);
             $team->delete();
 
             return Redirect::route('adm.team.index');
         } catch(\Exception $e){
-            $team->leagues()->sync($leagues);
+            $team->competitions()->sync($competitions);
 
             return $this->redirectErrorPage(
                 $e->getCode() === '23000' ? "Para deletar o registro, atualize ou exclua suas dependencias." : $e->getMessage(),

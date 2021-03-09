@@ -4,7 +4,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\OficialGameController;
-use App\Http\Controllers\LeagueController;
+use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\StadiumController;
 use Illuminate\Foundation\Application;
@@ -34,14 +34,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     })->name('dashboard');
 
     Route::prefix('adm')->name('adm.')->group(function () {
+        Route::get('/oficial-game/list-by-competition', [OficialGameController::class, 'listByCompetition'])->name('oficial-game.list-by-competition');
+
+        Route::post('/competition/updateWithImage', [CompetitionController::class, 'updateWithImage'])->name('competition.update-with-image');
+        Route::post('/team/updateWithImage', [TeamController::class, 'updateWithImage'])->name('team.update-with-image');
+
+        /** RESOURCES */
         Route::resource('country', CountryController::class);
-        Route::resource('league', LeagueController::class);
+        Route::resource('competition', CompetitionController::class);
         Route::resource('player', PlayerController::class);
         Route::resource('stadium', StadiumController::class);
         Route::resource('game', GameController::class);
         Route::resource('oficial-game', OficialGameController::class);
         Route::resource('team', TeamController::class);
-        Route::post('/team/updateWithImage', [TeamController::class, 'updateWithImage'])->name('team.update-with-image');
     });
 });
 

@@ -42,7 +42,7 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" md="6">
+                                <v-col cols="12" md="3">
                                     <v-select
                                         v-model="form.stadium_id"
                                         :items="stadia"
@@ -55,6 +55,22 @@
                                     ></v-select>
                                     <div v-if="errors.stadium_id">
                                         <v-alert dense type="error" text>{{ errors.stadium_id }}</v-alert>
+                                    </div>
+                                </v-col>
+
+                                 <v-col cols="12" md="3">
+                                    <v-select
+                                        v-model="form.competition_id"
+                                        :items="competitions"
+                                        label="Competição"
+                                        required
+                                        color="green darken-1"
+                                        v-on:keyup.enter="store"
+                                        item-text="name"
+                                        item-value="id"
+                                    ></v-select>
+                                    <div v-if="errors.competition_id">
+                                        <v-alert dense type="error" text>{{ errors.competition_id }}</v-alert>
                                     </div>
                                 </v-col>
 
@@ -150,6 +166,7 @@
             game: Object,
             teams: Array,
             stadia: Array,
+            competitions: Array,
             errors: Object,
         },
         data: () => ({
@@ -159,6 +176,7 @@
                 team_home_id: null,
                 team_guest_id: null,
                 stadium_id: null,
+                competition_id: null,
                 date: format(parseISO(new Date().toISOString()), 'yyyy-MM-dd'),
                 time: '',
                 id: null

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Competition;
 use App\Models\Country;
 use App\Models\Game;
-use App\Models\League;
 use App\Models\Player;
 use App\Models\Stadium;
 use App\Models\Team;
@@ -25,12 +25,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Breno',
             'email' => 'breno.souza@bild.com.br',
             'email_verified_at' => now(),
-            'password' => Hash::make('aaaaaaaa'),
+            'password' => Hash::make('aaaa'),
             'remember_token' => 'fsdfasdfasdfdsfasdhdfhj',
         ]);
 
         $this->createCountries();
-        $this->createLeagues();
+        $this->createCompetitions();
         $this->createTeams();
         $this->createPlayers();
         $this->createStadia();
@@ -54,30 +54,30 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    public function createLeagues()
+    public function createCompetitions()
     {
-        $leagues = [
-            ['id' => 1, 'name' => 'Champions League'],
-            ['id' => 2, 'name' => 'Euro League'],
-            ['id' => 3, 'name' => 'Libertadores'],
+        $competition = [
+            ['id' => 1, 'name' => 'Champions League', 'active' => 1],
+            ['id' => 2, 'name' => 'Euro League', 'active' => 1],
+            ['id' => 3, 'name' => 'Libertadores', 'active' => 1],
         ];
 
-        foreach ($leagues as $key => $value) {
-            League::create($value);
+        foreach ($competition as $key => $value) {
+            Competition::create($value);
         }
     }
 
     public function createTeams()
     {
         $teams = [
-            ['id' => 1, 'name' => 'Real Madrid', 'country_id' => 6],
-            ['id' => 2, 'name' => 'Juventus', 'country_id' => 7],
-            ['id' => 3, 'name' => 'PSG', 'country_id' => 2],
+            ['id' => 1, 'name' => 'Real Madrid', 'country_id' => 6, 'name_photo' => '20210305142008real.jpg'],
+            ['id' => 2, 'name' => 'Juventus', 'country_id' => 7, 'name_photo' => '20210304003317juventus.png'],
+            ['id' => 3, 'name' => 'PSG', 'country_id' => 2, 'name_photo' => '20210304003317psg.png'],
         ];
 
         foreach ($teams as $key => $value) {
             $teamCreated = Team::create($value);
-            $teamCreated->leagues()->sync([1]);
+            $teamCreated->competitions()->sync([1]);
         }
     }
 
@@ -134,11 +134,23 @@ class DatabaseSeeder extends Seeder
                 'id' => 1,
                 'date' => now(),
                 'time' => now(),
-                'status' => 'Open',
+                'status' => 'open',
                 'type'  => 'oficial',
                 'team_home_id' => 1,
                 'team_guest_id' => 2,
-                'stadium_id' => 1
+                'stadium_id' => 1,
+                'competition_id' => 1
+            ],
+            [
+                'id' => 2,
+                'date' => now(),
+                'time' => now(),
+                'status' => 'finished',
+                'type'  => 'oficial',
+                'team_home_id' => 2,
+                'team_guest_id' => 3,
+                'stadium_id' => 2,
+                'competition_id' => 1
             ],
         ];
 
