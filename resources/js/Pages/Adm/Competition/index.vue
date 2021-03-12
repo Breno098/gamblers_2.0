@@ -37,6 +37,7 @@
                             <template v-slot:item="row">
                                 <tr>
                                     <td>{{row.item.name}}</td>
+                                    <td>{{row.item.season}}</td>
                                     <td>
                                         <v-menu transition="slide-y-transition" bottom>
                                             <template v-slot:activator="{ on, attrs }">
@@ -113,6 +114,9 @@
             headers: [{
                 text: 'Nome',
                 value: 'name'
+            }, {
+                text: 'Temporada',
+                value: 'season'
             }, {} ],
         }),
         methods: {

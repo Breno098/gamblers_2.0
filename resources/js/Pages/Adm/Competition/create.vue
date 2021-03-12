@@ -10,7 +10,7 @@
                     <v-card-text>
                         <v-container>
                             <v-row>
-                                <v-col cols="12">
+                                <v-col cols="6">
                                     <v-text-field
                                         v-model="form.name"
                                         label="Nome"
@@ -20,6 +20,19 @@
                                     ></v-text-field>
                                     <div v-if="errors.name">
                                         <v-alert dense type="error" text>{{ errors.name }}</v-alert>
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="6">
+                                    <v-text-field
+                                        v-model="form.season"
+                                        label="Temporada"
+                                        required
+                                        color="green darken-1"
+                                        v-on:keyup.enter="store"
+                                    ></v-text-field>
+                                    <div v-if="errors.season">
+                                        <v-alert dense type="error" text>{{ errors.season }}</v-alert>
                                     </div>
                                 </v-col>
 
@@ -72,6 +85,7 @@
             form: {
                 name: '',
                 photo: null,
+                season: '',
                 id: null
             },
             imageUrl: '',
@@ -80,10 +94,10 @@
         }),
         mounted(){
             if(this.competition){
-                this.form = this.competition;
                 this.form.id = this.competition.id;
-                this.imageUrl = this.competition_photo_base + this.competition.name_photo;
                 this.form.name = this.competition.name;
+                this.form.season = this.competition.season;
+                this.imageUrl = this.competition_photo_base + this.competition.name_photo;
             }
         },
         methods: {
@@ -91,6 +105,7 @@
                 var data = new FormData()
                 data.append('id', this.form.id || '')
                 data.append('name', this.form.name || '')
+                data.append('season', this.form.season || '')
                 if(this.form.photo !== undefined){
                     data.append('photo', this.form.photo || '')
                 }

@@ -18,7 +18,7 @@ class CreateGamesTable extends Migration
             $table->date('date')->nullable();
             $table->time('time')->nullable();
             $table->string('status')->nullable();
-            $table->enum('type', ['oficial', 'bet'])->nullable();
+            $table->enum('type', ['official', 'bet'])->nullable();
 
             $table->foreignId('user_id')->nullable()->constrained();
             $table->integer('team_home_score')->nullable();

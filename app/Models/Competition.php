@@ -10,7 +10,7 @@ class Competition extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'active', 'name_photo'
+        'name', 'active', 'name_photo', 'season'
     ];
 
     protected $hidden = [

@@ -17,6 +17,7 @@ class CreateCompetitionsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('name_photo')->nullable();
+            $table->string('season')->nullable();
             $table->integer('active')->default(1);
             $table->timestamps();
         });

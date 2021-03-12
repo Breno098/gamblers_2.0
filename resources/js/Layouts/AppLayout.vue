@@ -73,7 +73,7 @@
             }, {
                 title: 'Jogos',
                 items: [
-                    { title: 'Oficiais',  icon: 'mdi-user', route: 'adm.oficial-game.index' },
+                    { title: 'Oficiais',  icon: 'mdi-user', route: 'adm.official.competitions' },
                 ]
             }, {
                 title: 'Perfil',

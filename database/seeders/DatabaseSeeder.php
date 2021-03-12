@@ -57,9 +57,27 @@ class DatabaseSeeder extends Seeder
     public function createCompetitions()
     {
         $competition = [
-            ['id' => 1, 'name' => 'Champions League', 'active' => 1],
-            ['id' => 2, 'name' => 'Euro League', 'active' => 1],
-            ['id' => 3, 'name' => 'Libertadores', 'active' => 1],
+            [
+                'id' => 1,
+                'name' => 'Champions League',
+                'season' => '2021/2022',
+                'active' => 1,
+                'name_photo' => '20210309130415champions-league.jpg'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Euro League',
+                'season' => '2021/2022',
+                'active' => 1,
+                'name_photo' => '20210309130455uefa-euro.jpg'
+            ],
+            [
+                'id' => 3,
+                'name' => 'Libertadores',
+                'season' => '2021',
+                'active' => 1,
+                'name_photo' => '20210309130613libertadores.png'
+            ],
         ];
 
         foreach ($competition as $key => $value) {
@@ -135,7 +153,7 @@ class DatabaseSeeder extends Seeder
                 'date' => now(),
                 'time' => now(),
                 'status' => 'open',
-                'type'  => 'oficial',
+                'type'  => 'official',
                 'team_home_id' => 1,
                 'team_guest_id' => 2,
                 'stadium_id' => 1,
@@ -146,7 +164,7 @@ class DatabaseSeeder extends Seeder
                 'date' => now(),
                 'time' => now(),
                 'status' => 'finished',
-                'type'  => 'oficial',
+                'type'  => 'official',
                 'team_home_id' => 2,
                 'team_guest_id' => 3,
                 'stadium_id' => 2,

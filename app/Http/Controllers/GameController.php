@@ -17,7 +17,7 @@ class GameController extends Controller
 {
     public function index()
     {
-        $games = Game::where('type', 'oficial')->orderBy('date')->get();
+        $games = Game::where('type', 'official')->orderBy('date')->get();
         foreach ($games as &$game) {
             $game->country;
             $game->competition;
@@ -66,7 +66,7 @@ class GameController extends Controller
             'competition_id' => $request->competition_id,
             'date' => $request->date,
             'time' => $request->time,
-            'type' => 'oficial',
+            'type' => 'official',
             'status' => 'open'
         ]);
 
@@ -110,7 +110,7 @@ class GameController extends Controller
                 'competition_id' => $request->competition_id,
                 'date' => $request->date,
                 'time' => $request->time,
-                'type' => 'oficial',
+                'type' => 'official',
                 'status' => 'open'
             ]);
 

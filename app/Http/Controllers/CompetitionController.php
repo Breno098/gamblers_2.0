@@ -27,9 +27,11 @@ class CompetitionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'season' => 'required'
         ], [
-            'name.required' => 'Nome obrigatório.'
+            'name.required' => 'Nome obrigatório.',
+            'season.required' => 'Informe a temporada.'
         ]);
 
         $name_photo = $request->file('photo') ? Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName() : false;
@@ -41,7 +43,8 @@ class CompetitionController extends Controller
         Competition::create([
             'name' => $request->name,
             'active' => 1,
-            'name_photo' => $name_photo
+            'name_photo' => $name_photo,
+            'season' => $request->season,
         ]);
 
         return Redirect::route('adm.competition.index');
@@ -61,9 +64,11 @@ class CompetitionController extends Controller
     public function updateWithImage(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'season' => 'required'
         ], [
-            'name.required' => 'Nome obrigatório.'
+            'name.required' => 'Nome obrigatório.',
+            'season.required' => 'Informe a temporada.'
         ]);
 
         $name_photo = $request->file('photo') ? Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName() : false;
@@ -81,7 +86,8 @@ class CompetitionController extends Controller
 
             $competition->update([
                 'name' => $request->name,
-                'name_photo' => $name_photo ?: $competition->name_photo
+                'name_photo' => $name_photo ?: $competition->name_photo,
+                'season' => $request->season,
             ]);
 
             return Redirect::route('adm.competition.index');
