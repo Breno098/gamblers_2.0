@@ -44,11 +44,18 @@ class OfficialController extends Controller
         $game = Game::findorFail($request->id);
         $game->competition;
         $game->stadium->country;
-        $game->teamHome;
-        $game->teamGuest;
+        $game->teamHome->players;
+        $game->teamHome->country;
+        $game->teamGuest->players;
+        $game->teamGuest->country;
 
         return Inertia::render('Adm/Official/game', [
             'game' => $game,
         ]);
+    }
+
+    public function calculateScore(Request $request)
+    {
+        dd($request);
     }
 }

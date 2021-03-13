@@ -38,6 +38,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::get('/official/competition', [OfficialController::class, 'competition'])->name('official.competition');
         Route::get('/official/game', [OfficialController::class, 'game'])->name('official.game');
 
+        Route::post('/official/calculate-score', [OfficialController::class, 'calculateScore'])->name('official.calculate-score');
+
         /** UPDATES WITH IMAGE */
         Route::post('/competition/updateWithImage', [CompetitionController::class, 'updateWithImage'])->name('competition.update-with-image');
         Route::post('/team/updateWithImage', [TeamController::class, 'updateWithImage'])->name('team.update-with-image');

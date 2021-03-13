@@ -231,6 +231,33 @@
             </portal-target>
         </div>
     </div>
+
+      <!-- <v-col cols="6">
+                                            <v-virtual-scroll
+                                                :items="game.team_home.players"
+                                                :item-height="50"
+                                                height="300"
+                                            >
+                                            <template v-slot:default="{ item }">
+                                                <v-list-item>
+
+                                                <v-list-item-content>
+                                                    <v-list-item-title>
+                                                        <v-chip class="ma-2" label :color="colorPosition(item.position)">
+                                                            {{ item.position }}
+                                                        </v-chip>
+                                                        {{ item.name }}
+                                                    </v-list-item-title>
+                                                </v-list-item-content>
+
+                                                <v-list-item-action>
+
+                                                </v-list-item-action>
+                                                </v-list-item>
+                                            </template>
+                                            </v-virtual-scroll>
+
+                                        </v-col> -->
 </template>
 
 <script>

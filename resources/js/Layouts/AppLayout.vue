@@ -103,4 +103,18 @@
 * {
     font-family: 'RocknRoll One', sans-serif;
 }
+
+.v-application ::-webkit-scrollbar {
+    height: 8px;
+    width: 13px;
+}
+
+.v-application ::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.v-application ::-webkit-scrollbar-thumb {
+    background: #43A047;
+    border-radius: 8px;
+}
 </style>
