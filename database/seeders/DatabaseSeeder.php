@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Competition;
 use App\Models\Country;
 use App\Models\Game;
+use App\Models\Goal;
 use App\Models\Player;
+use App\Models\Scoreboard;
 use App\Models\Stadium;
 use App\Models\Team;
 use App\Models\User;
@@ -23,7 +25,7 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'name' => 'Breno',
-            'email' => 'breno.souza@bild.com.br',
+            'email' => 'aaaa@aaaa',
             'email_verified_at' => now(),
             'password' => Hash::make('aaaa'),
             'remember_token' => 'fsdfasdfasdfdsfasdhdfhj',
@@ -35,6 +37,8 @@ class DatabaseSeeder extends Seeder
         $this->createPlayers();
         $this->createStadia();
         $this->createGames();
+        $this->createScoreboards();
+        $this->createGoals();
     }
 
     public function createCountries()
@@ -103,24 +107,28 @@ class DatabaseSeeder extends Seeder
     {
         $players = [
             [
+                'id' => 1,
                 'name' => 'Cristiano Ronaldo',
                 'country_id' => 5,
                 'team_id' => 2,
                 'position' => 'ATA'
             ],
             [
+                'id' => 2,
                 'name' => 'Neymar',
                 'country_id' => 1,
                 'team_id' => 3,
                 'position' => 'ATA'
             ],
             [
+                'id' => 3,
                 'name' => 'Kroos',
                 'country_id' => 3,
                 'team_id' => 1,
                 'position' => 'VOL'
             ],
             [
+                'id' => 4,
                 'name' => 'Sergio Ramos',
                 'country_id' => 6,
                 'team_id' => 1,
@@ -153,27 +161,60 @@ class DatabaseSeeder extends Seeder
                 'date' => now(),
                 'time' => now(),
                 'status' => 'open',
-                'type'  => 'official',
                 'team_home_id' => 1,
                 'team_guest_id' => 2,
                 'stadium_id' => 1,
-                'competition_id' => 1
+                'competition_id' => 1,
+                'stage' => 'oitavas'
             ],
             [
                 'id' => 2,
                 'date' => now(),
                 'time' => now(),
                 'status' => 'finished',
-                'type'  => 'official',
                 'team_home_id' => 2,
                 'team_guest_id' => 3,
                 'stadium_id' => 2,
-                'competition_id' => 1
+                'competition_id' => 1,
+                'stage' => 'oitavas'
             ],
         ];
 
         foreach ($games as $key => $value) {
             Game::create($value);
+        }
+    }
+
+    public function createScoreboards()
+    {
+        $scoreboards = [
+            [
+                'id' => 1,
+                'type'  => 'official',
+                'game_id' => 1,
+                'team_home_scoreboard' => 1,
+                'team_guest_scoreboard' => 0
+            ],
+        ];
+
+        foreach ($scoreboards as $key => $value) {
+            Scoreboard::create($value);
+        }
+    }
+
+    public function createGoals()
+    {
+        $goals = [
+            [
+                'id' => 1,
+                'player_id' => 4,
+                'team_id' => 1,
+                'scoreboard_id' => 1,
+            ],
+        ];
+
+        foreach ($goals as $key => $value) {
+            Goal::create($value);
         }
     }
 }

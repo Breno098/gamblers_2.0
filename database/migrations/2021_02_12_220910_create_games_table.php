@@ -18,15 +18,14 @@ class CreateGamesTable extends Migration
             $table->date('date')->nullable();
             $table->time('time')->nullable();
             $table->string('status')->nullable();
-            $table->enum('type', ['official', 'bet'])->nullable();
+            $table->string('stage')->nullable();
 
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->integer('team_home_score')->nullable();
             $table->foreignId('team_home_id')->constrained('teams');
-            $table->integer('team_guest_score')->nullable();
             $table->foreignId('team_guest_id')->constrained('teams');
             $table->foreignId('stadium_id')->constrained();
             $table->foreignId('competition_id')->constrained();
+
             $table->timestamps();
         });
     }

@@ -80,6 +80,12 @@
                 items: [
                     { title: 'Perfil',  icon: 'mdi-user', route: 'profile.show' },
                 ]
+            }, {
+                title: '-- Apostador --',
+                items: [
+                    { title: 'Dashboard',  icon: 'mdi-user', route: 'gambler.dashboard' },
+                    { title: 'Competições',  icon: 'mdi-user', route: 'gambler.competitions' },
+                ]
             }
         ],
         right: null,

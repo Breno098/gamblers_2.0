@@ -39,15 +39,16 @@
                                     <td>{{row.item.team_home.name}}</td>
                                     <td>
                                         <v-chip class="ma-2" label color="success">
-                                            {{row.item.team_home.score ? row.item.team_home.score : '--'}}
+                                            {{row.item.scoreboard ? row.item.scoreboard.team_home_scoreboard : '--'}}
                                         </v-chip>
                                     </td>
                                     <td>
                                         <v-chip class="ma-2" label color="success">
-                                            {{row.item.team_guest.score ? row.item.team_guest.score : '--'}}
+                                            {{row.item.scoreboard ? row.item.scoreboard.team_guest_scoreboard : '--'}}
                                         </v-chip>
                                     </td>
                                     <td>{{row.item.team_guest.name}}</td>
+                                    <td>{{row.item.stage}}</td>
                                     <td>{{row.item.stadium.name}}</td>
                                     <td>{{row.item.stadium.country.name}}</td>
                                     <td>{{row.item.competition.name}}</td>
@@ -146,6 +147,9 @@
             }, {
                 text: 'Time visitante',
                 value: 'team_guest.name'
+            }, {
+                text: 'Etapa',
+                value: 'stage'
             }, {
                 text: 'Estádio',
                 value: 'stadium.name'

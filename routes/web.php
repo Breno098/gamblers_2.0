@@ -1,12 +1,16 @@
 <?php
 
-use App\Http\Controllers\TeamController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\OfficialController;
-use App\Http\Controllers\CompetitionController;
-use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\StadiumController;
+use App\Http\Controllers\Adm\TeamController;
+use App\Http\Controllers\Adm\CountryController;
+use App\Http\Controllers\Adm\GameController;
+use App\Http\Controllers\Adm\OfficialController;
+use App\Http\Controllers\Adm\CompetitionController;
+use App\Http\Controllers\Adm\PlayerController;
+use App\Http\Controllers\Adm\StadiumController;
+
+use App\Http\Controllers\Gambler\CompetitionController as GamblerCompetitionController;
+use App\Http\Controllers\Gambler\Dashboard as GamblerDashboard;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,7 +29,6 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Auth/Login');
 });
-
 
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function() {
@@ -51,6 +54,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::resource('stadium', StadiumController::class);
         Route::resource('game', GameController::class);
         Route::resource('team', TeamController::class);
+    });
+
+    Route::prefix('gambler')->name('gambler.')->group(function () {
+
+        Route::get('/dashboard', [GamblerDashboard::class, 'index'])->name('dashboard');
+
+        Route::get('/competitions', [GamblerCompetitionController::class, 'competitions'])->name('competitions');
+        Route::get('/competition', [GamblerCompetitionController::class, 'competition'])->name('competition');
+        Route::get('/game', [GamblerCompetitionController::class, 'game'])->name('game');
+
+        Route::post('/storeGame', [GamblerCompetitionController::class, 'storeGame'])->name('store-game');
     });
 });
 

@@ -58,7 +58,7 @@
                                     </div>
                                 </v-col>
 
-                                 <v-col cols="12" md="3">
+                                <v-col cols="12" md="3">
                                     <v-select
                                         v-model="form.competition_id"
                                         :items="competitions"
@@ -139,6 +139,22 @@
                                     </v-menu>
                                 </v-col>
 
+                                 <v-col cols="12" md="3">
+                                    <v-select
+                                        v-model="form.stage"
+                                        :items="stages"
+                                        label="Fase"
+                                        required
+                                        color="green darken-1"
+                                        v-on:keyup.enter="store"
+                                        item-text="name"
+                                        item-value="id"
+                                    ></v-select>
+                                    <div v-if="errors.stage">
+                                        <v-alert dense type="error" text>{{ errors.stage }}</v-alert>
+                                    </div>
+                                </v-col>
+
                                 <v-col cols="12">
                                     <v-btn text color="green darken-1" @click="store">
                                         Salvar &nbsp; <v-icon dark>mdi-content-save</v-icon>
@@ -170,6 +186,15 @@
             errors: Object,
         },
         data: () => ({
+            items: [],
+            search: null,
+            stage: null,
+            stages: [
+                'Oitavas',
+                'Quartas',
+                'Semi',
+                'Final'
+            ],
             menuDate: false,
             menutime: false,
             form: {
@@ -179,6 +204,7 @@
                 competition_id: null,
                 date: format(parseISO(new Date().toISOString()), 'yyyy-MM-dd'),
                 time: '',
+                stage: null,
                 id: null
             }
         }),
@@ -195,11 +221,21 @@
                     this.$inertia.put(route('adm.game.update', { game: this.form }), this.form);
                 }
             },
+            querySelections (v) {
+                this.items = this.stages.filter(e => {
+                    return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+                })
+            },
         },
         computed: {
             dateFormat () {
                 return this.form.date ? moment(this.form.date).format('DD/MM/YYYY') : ''
             },
-        }
+        },
+        watch: {
+            search (val) {
+                val && val !== this.stage && this.querySelections(val)
+            },
+        },
     }
 </script>

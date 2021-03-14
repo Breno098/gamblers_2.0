@@ -15,10 +15,10 @@ class CreateGoalsTable extends Migration
     {
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->nullable();
-            $table->string('minutes')->nullable();
+            $table->string('minute')->nullable();
             $table->foreignId('team_id')->constrained();
             $table->foreignId('player_id')->constrained();
+            $table->foreignId('scoreboard_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
