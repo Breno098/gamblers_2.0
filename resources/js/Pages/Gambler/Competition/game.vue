@@ -46,7 +46,7 @@
                                         </v-col>
 
                                         <v-col cols="12">
-                                            <v-card class="text-center">
+                                            <v-card class="text-center pl-3">
                                                 <v-row>
                                                     <v-col cols="12" md="4">
                                                         <v-img
@@ -55,6 +55,13 @@
                                                             max-width="600"
                                                             max-height="600"
                                                         >
+                                                            <span class="float-right mr-3 mt-3 black--text">
+                                                                <v-card class="text-center" shaped>
+                                                                    <v-card-text>
+                                                                        Gols: {{ goalsHome.length }}
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </span>
                                                         </v-img>
                                                         <v-card-title> {{ game.team_home.name }} | {{ game.team_home.country.name }} </v-card-title>
                                                     </v-col>
@@ -119,10 +126,8 @@
                                             </v-card>
                                         </v-col>
 
-                                        <hr/>
-
                                         <v-col cols="12">
-                                            <v-card class="text-center">
+                                            <v-card class="text-center pl-3 mt-6">
                                                 <v-row>
                                                     <v-col cols="12" md="4">
                                                         <v-img
@@ -131,6 +136,13 @@
                                                             max-width="600"
                                                             max-height="600"
                                                         >
+                                                            <span class="float-right mr-3 mt-3 black--text">
+                                                                <v-card class="text-center" shaped>
+                                                                    <v-card-text>
+                                                                        Gols: {{ goalsGuest.length }}
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </span>
                                                         </v-img>
                                                         <v-card-title> {{ game.team_guest.name }} | {{ game.team_guest.country.name }} </v-card-title>
                                                     </v-col>
@@ -271,6 +283,15 @@
             team_photo_base: window.location.origin + '/storage/teams/'
         }),
         mounted(){
+            if(this.game.scoreboard_bet.goals){
+                this.game.scoreboard_bet.goals.map(goal => {
+                    if(this.game.team_home.id === goal.team_id){
+                        this.addGoalHome(goal.player);
+                    } else if(this.game.team_guest.id === goal.team_id){
+                        this.addGoalGuest(goal.player);
+                    }
+                })
+            }
         },
         methods: {
             storeGame(){
@@ -278,7 +299,7 @@
                     game: this.game,
                     goalsHome: this.goalsHome,
                     goalsGuest: this.goalsGuest
-                 });
+                });
             },
             dateFormat (date) {
                 return moment(date).format('DD/MM/YYYY')

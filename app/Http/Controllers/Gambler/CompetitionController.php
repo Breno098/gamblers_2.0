@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\Game;
 use App\Models\Goal;
 use App\Models\Scoreboard;
+use App\Services\ScoreService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Exception;
@@ -32,6 +33,8 @@ class CompetitionController extends Controller
             $game->stadium->country;
             $game->teamHome;
             $game->teamGuest;
+
+            $game->addScoreboardByUserId( Auth::user()->id );
         }
 
         return Inertia::render('Gambler/Competition/competition', [
@@ -49,53 +52,19 @@ class CompetitionController extends Controller
         $game->teamGuest->players;
         $game->teamGuest->country;
 
+        $game->addScoreboardAndGoalsByUserId( Auth::user()->id );
+
         return Inertia::render('Gambler/Competition/game', [
             'game' => $game,
         ]);
     }
 
-    public function storeGame(Request $request)
+    public function storeGame(Request $request, ScoreService $scoreService)
     {
-        // dd($request);
+        $scoreService->saveRequest($request, 'bet', Auth::user()->id);
 
-        $scoreboard = Scoreboard::where('game_id', $request->game['id'])
-                                ->where('user_id', Auth::user()->id)
-                                ->where('type', 'bet')
-                                ->first();
-
-        if($scoreboard){
-            $scoreboard->update([
-                'team_home_scoreboard' => count($request->goalsHome) ?? '0',
-                'team_guest_scoreboard' => count($request->goalsGuest) ?? '0',
-            ]);
-        } else {
-            $scoreboard = Scoreboard::create([
-                'game_id'   => $request->game['id'],
-                'user_id'   => Auth::user()->id,
-                'team_home_scoreboard' => count($request->goalsHome) ?? '0',
-                'team_guest_scoreboard' => count($request->goalsGuest) ?? '0',
-                'type'      => 'bet'
-            ]);
-        }
-
-        Goal::where('scoreboard_id', $scoreboard->id)->delete();
-
-        $goalsHome = $request->goalsHome;
-        collect($goalsHome)->each(function($player) use ($scoreboard) {
-            Goal::create([
-                'player_id' => $player['id'],
-                'team_id'   => $player['team_id'],
-                'scoreboard_id' => $scoreboard->id
-            ]);
-        });
-
-        $goalsGuest = $request->goalsGuest;
-        collect($goalsGuest)->each(function($player) use ($scoreboard) {
-            Goal::create([
-                'player_id' => $player['id'],
-                'team_id'   => $player['team_id'],
-                'scoreboard_id' => $scoreboard->id
-            ]);
-        });
+        return Redirect::route('gambler.competition', [
+            'competition_id' => $request->game['competition']['id']
+        ]);
     }
 }

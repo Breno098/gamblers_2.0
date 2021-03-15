@@ -46,7 +46,7 @@
                                         </v-col>
 
                                         <v-col cols="12">
-                                            <v-card class="text-center">
+                                            <v-card class="text-center pl-3">
                                                 <v-row>
                                                     <v-col cols="12" md="4">
                                                         <v-img
@@ -55,6 +55,13 @@
                                                             max-width="600"
                                                             max-height="600"
                                                         >
+                                                            <span class="float-right mr-3 mt-3 black--text">
+                                                                <v-card class="text-center" shaped>
+                                                                    <v-card-text>
+                                                                        Gols: {{ goalsHome.length }}
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </span>
                                                         </v-img>
                                                         <v-card-title> {{ game.team_home.name }} | {{ game.team_home.country.name }} </v-card-title>
                                                     </v-col>
@@ -119,10 +126,8 @@
                                             </v-card>
                                         </v-col>
 
-                                        <hr/>
-
                                         <v-col cols="12">
-                                            <v-card class="text-center">
+                                            <v-card class="text-center pl-3 mt-6">
                                                 <v-row>
                                                     <v-col cols="12" md="4">
                                                         <v-img
@@ -131,6 +136,13 @@
                                                             max-width="600"
                                                             max-height="600"
                                                         >
+                                                            <span class="float-right mr-3 mt-3 black--text">
+                                                                <v-card class="text-center" shaped>
+                                                                    <v-card-text>
+                                                                        Gols: {{ goalsGuest.length }}
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </span>
                                                         </v-img>
                                                         <v-card-title> {{ game.team_guest.name }} | {{ game.team_guest.country.name }} </v-card-title>
                                                     </v-col>
@@ -199,13 +211,46 @@
                                 </v-card>
                             </v-col>
                             <v-col>
-                                <v-btn block v-on:click="calculateScore()">
-                                    <v-icon>mdi-plus</v-icon> calculateScore
+                                <v-btn block v-on:click="dialog = true">
+                                    Apostar
                                 </v-btn>
                             </v-col>
                         </v-row>
                     </v-card-text>
                 </v-card>
+
+                 <v-dialog v-model="dialog" max-width="500">
+                    <v-card>
+                        <v-card-title>
+                            Confirmar aposta?
+                        </v-card-title>
+                        <v-card-text>
+                            <div>
+                                {{ game.competition.name }}
+                            </div>
+                            <div>
+                                {{ game.stadium.name }} | {{ game.stadium.country.name }}
+                            </div>
+                            <v-divider class="mt-2 mb-4"/>
+                            <div>
+                                {{ game.team_home.name }} | {{ goalsHome.length }} X {{ goalsGuest.length }} | {{ game.team_guest.name }}
+                            </div>
+                        </v-card-text>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="red darken-1" text @click="dialog = false">
+                                <v-icon dark>mdi-close</v-icon>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn color="green darken-1" text @click="storeGame">
+                                <v-icon dark>mdi-check</v-icon>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
             </v-col>
         </v-row>
     </app-layout>
@@ -223,6 +268,7 @@
             game: Object,
         },
         data: () => ({
+            dialog: false,
             goalsHome: [],
             goalsGuest: [],
             headers: [{
@@ -237,15 +283,23 @@
             team_photo_base: window.location.origin + '/storage/teams/'
         }),
         mounted(){
+            if(this.game.scoreboard_official.goals){
+                this.game.scoreboard_official.goals.map(goal => {
+                    if(this.game.team_home.id === goal.team_id){
+                        this.addGoalHome(goal.player);
+                    } else if(this.game.team_guest.id === goal.team_id){
+                        this.addGoalGuest(goal.player);
+                    }
+                })
+            }
         },
         methods: {
-            calculateScore(){
-                let routeCalculateScore = route('adm.official.calculate-score');
-                this.$inertia.post(routeCalculateScore, {
+            storeGame(){
+                this.$inertia.post( route('adm.official.calculate-score'), {
                     game: this.game,
                     goalsHome: this.goalsHome,
                     goalsGuest: this.goalsGuest
-                 });
+                });
             },
             dateFormat (date) {
                 return moment(date).format('DD/MM/YYYY')

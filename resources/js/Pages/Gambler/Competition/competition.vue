@@ -44,7 +44,14 @@
                                                     max-width="400"
                                                     max-height="400"
                                                 >
-                                                    <v-card-title> {{ game.team_home.name }} </v-card-title>
+                                                    <v-card-title class="d-flex justify-space-between">
+                                                        <div>
+                                                             {{ game.team_home.name }}
+                                                        </div>
+                                                        <div>
+                                                            {{ game.scoreboard_bet ? game.scoreboard_bet.team_home_scoreboard : '--' }}
+                                                        </div>
+                                                    </v-card-title>
                                                 </v-img>
                                             </v-card>
                                         </v-col>
@@ -57,7 +64,14 @@
                                                     max-width="400"
                                                     max-height="400"
                                                 >
-                                                    <v-card-title> {{ game.team_guest.name }} </v-card-title>
+                                                    <v-card-title class="d-flex justify-space-between">
+                                                        <div>
+                                                             {{ game.team_guest.name }}
+                                                        </div>
+                                                        <div>
+                                                            {{ game.scoreboard_bet ? game.scoreboard_bet.team_guest_scoreboard : '--' }}
+                                                        </div>
+                                                    </v-card-title>
                                                 </v-img>
                                             </v-card>
                                         </v-col>
