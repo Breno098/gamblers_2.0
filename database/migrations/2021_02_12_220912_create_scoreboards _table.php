@@ -20,6 +20,9 @@ class CreateScoreboardsTable extends Migration
             $table->foreignId('user_id')->nullable()->constrained();
             $table->integer('team_home_scoreboard')->nullable();
             $table->integer('team_guest_scoreboard')->nullable();
+
+            $table->float('score')->default(0);
+            $table->longText('report')->nullable();
             $table->timestamps();
         });
     }

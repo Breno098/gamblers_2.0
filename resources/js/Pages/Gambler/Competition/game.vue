@@ -84,7 +84,7 @@
                                                                                 </v-chip>
                                                                             </td>
                                                                             <td>
-                                                                                <v-btn block v-on:click="addGoalHome(row.item)">
+                                                                                <v-btn block v-on:click="addGoalHome(row.item)" :disabled="game.status !== 'open'">
                                                                                     <v-icon>mdi-plus</v-icon>
                                                                                 </v-btn>
                                                                             </td>
@@ -112,7 +112,7 @@
                                                                                 </v-chip>
                                                                             </td>
                                                                             <td>
-                                                                                <v-btn block v-on:click="removeGoalHome(row.item)">
+                                                                                <v-btn block v-on:click="removeGoalHome(row.item)" :disabled="game.status !== 'open'">
                                                                                     <v-icon>mdi-minus</v-icon>
                                                                                 </v-btn>
                                                                             </td>
@@ -165,7 +165,7 @@
                                                                                 </v-chip>
                                                                             </td>
                                                                             <td>
-                                                                                <v-btn block v-on:click="addGoalGuest(row.item)">
+                                                                                <v-btn block v-on:click="addGoalGuest(row.item)" :disabled="game.status !== 'open'">
                                                                                     <v-icon>mdi-plus</v-icon>
                                                                                 </v-btn>
                                                                             </td>
@@ -193,7 +193,7 @@
                                                                                 </v-chip>
                                                                             </td>
                                                                             <td>
-                                                                                <v-btn block v-on:click="removeGoalGuest(row.item)">
+                                                                                <v-btn block v-on:click="removeGoalGuest(row.item)" :disabled="game.status !== 'open'">
                                                                                     <v-icon>mdi-minus</v-icon>
                                                                                 </v-btn>
                                                                             </td>
@@ -211,7 +211,7 @@
                                 </v-card>
                             </v-col>
                             <v-col>
-                                <v-btn block v-on:click="dialog = true">
+                                <v-btn block v-on:click="dialog = true" :disabled="game.status !== 'open'">
                                     Apostar
                                 </v-btn>
                             </v-col>

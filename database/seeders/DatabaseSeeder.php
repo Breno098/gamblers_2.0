@@ -25,11 +25,20 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'name' => 'Breno',
-            'email' => 'aaaa@aaaa',
+            'email' => 'breno@email',
             'email_verified_at' => now(),
             'password' => Hash::make('aaaa'),
             'remember_token' => 'fsdfasdfasdfdsfasdhdfhj',
         ]);
+
+        User::create([
+            'name' => 'Henrique',
+            'email' => 'henrique@email',
+            'email_verified_at' => now(),
+            'password' => Hash::make('aaaa'),
+            'remember_token' => 'fsdfasdfasdfdsfasdhdfssshj',
+        ]);
+
 
         $this->createCountries();
         $this->createCompetitions();
@@ -50,7 +59,8 @@ class DatabaseSeeder extends Seeder
             ['id' => 4, 'name' => 'Inglaterra'],
             ['id' => 5, 'name' => 'Portugal'],
             ['id' => 6, 'name' => 'Espanha'],
-            ['id' => 7, 'name' => 'Itália']
+            ['id' => 7, 'name' => 'Itália'],
+            ['id' => 8, 'name' => 'Croácia']
         ];
 
         foreach ($coutries as $key => $value) {
@@ -134,6 +144,13 @@ class DatabaseSeeder extends Seeder
                 'team_id' => 1,
                 'position' => 'ZAG'
             ],
+            [
+                'id' => 5,
+                'name' => 'Modric',
+                'country_id' => 8,
+                'team_id' => 1,
+                'position' => 'MEI'
+            ],
         ];
 
         foreach ($players as $key => $value) {
@@ -189,12 +206,22 @@ class DatabaseSeeder extends Seeder
     {
         $scoreboards = [
             [
-                'id' => 1,
-                'type'  => 'official',
+                'id' => 2,
+                'type'  => 'bet',
                 'game_id' => 1,
-                'team_home_scoreboard' => 1,
-                'team_guest_scoreboard' => 0
+                'team_home_scoreboard' => 2,
+                'team_guest_scoreboard' => 1,
+                'user_id' => 1
             ],
+            [
+                'id' => 3,
+                'type'  => 'bet',
+                'game_id' => 1,
+                'team_home_scoreboard' => 3,
+                'team_guest_scoreboard' => 1,
+                'user_id' => 2
+            ],
+
         ];
 
         foreach ($scoreboards as $key => $value) {
@@ -206,11 +233,48 @@ class DatabaseSeeder extends Seeder
     {
         $goals = [
             [
-                'id' => 1,
+                'id' => 3,
                 'player_id' => 4,
                 'team_id' => 1,
-                'scoreboard_id' => 1,
+                'scoreboard_id' => 2,
             ],
+            [
+                'id' => 4,
+                'player_id' => 4,
+                'team_id' => 1,
+                'scoreboard_id' => 2,
+            ],
+            [
+                'id' => 5,
+                'player_id' => 1,
+                'team_id' => 2,
+                'scoreboard_id' => 2,
+            ],
+            [
+                'id' => 6,
+                'player_id' => 5,
+                'team_id' => 1,
+                'scoreboard_id' => 3,
+            ],
+            [
+                'id' => 7,
+                'player_id' => 4,
+                'team_id' => 1,
+                'scoreboard_id' => 3,
+            ],
+            [
+                'id' => 8,
+                'player_id' => 5,
+                'team_id' => 1,
+                'scoreboard_id' => 3,
+            ],
+            [
+                'id' => 9,
+                'player_id' => 1,
+                'team_id' => 2,
+                'scoreboard_id' => 3,
+            ],
+
         ];
 
         foreach ($goals as $key => $value) {

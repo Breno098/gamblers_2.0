@@ -10,7 +10,7 @@ class Scoreboard extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type', 'user_id', 'team_home_scoreboard', 'team_guest_scoreboard', 'game_id'
+        'type', 'user_id', 'team_home_scoreboard', 'team_guest_scoreboard', 'game_id', 'score', 'report'
     ];
 
     protected $hidden = [
@@ -18,6 +18,7 @@ class Scoreboard extends Model
     ];
 
     protected $casts = [
+        'score' => 'float'
     ];
 
     public function user()

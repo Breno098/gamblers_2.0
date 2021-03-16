@@ -118,8 +118,9 @@
                                                 :href="route('gambler.game', { id: game.id })"
                                                 style="text-decoration: none"
                                             >
-                                                <v-btn block color="green darken-1" :disabled="game.status === 'open' ? false : true">
-                                                    Calcular pontuação <v-icon dark>mdi-plus</v-icon>
+                                                  <v-btn block color="green darken-1">
+                                                    {{ game.status === 'open' ? 'Apostar' : 'Ver informações' }}
+                                                    <v-icon dark v-if="game.status === 'open'">mdi-plus</v-icon>
                                                 </v-btn>
                                             </inertia-link>
                                         </v-col>
