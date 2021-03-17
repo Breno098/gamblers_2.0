@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Adm\PlayerRequest;
 use App\Models\Country;
 use App\Models\Player;
 use App\Models\Team;
@@ -15,7 +16,7 @@ class PlayerController extends Controller
 {
     public function index()
     {
-        $players = Player::orderBy('name')->get();
+        $players = Player::whereNotNull('country_id')->orderBy('name')->get();
         foreach ($players as &$player) {
             $player->country;
             $player->team;
@@ -35,27 +36,9 @@ class PlayerController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(PlayerRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'position' => 'required',
-            'country_id' => 'required',
-            'team_id' => 'required'
-        ], [
-            'name.required' => 'Nome obrigatório.',
-            'position.required' => 'Informe a posição.',
-            'country_id.required' => 'Selecione o país.',
-            'team_id.required' => 'Selecione o time.'
-        ]);
-
-        Player::create([
-            'name' => $request->name,
-            'position' => $request->position,
-            'country_id' => $request->country_id,
-            'team_id' => $request->team_id
-        ]);
-
+        Player::create($request->all());
         return Redirect::route('adm.player.index');
     }
 
@@ -69,28 +52,10 @@ class PlayerController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(PlayerRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'position' => 'required',
-            'country_id' => 'required',
-            'team_id' => 'required'
-        ], [
-            'name.required' => 'Nome obrigatório.',
-            'position.required' => 'Informe a posição.',
-            'country_id.required' => 'Selecione o país.',
-            'team_id.required' => 'Selecione o time.'
-        ]);
-
         if($id){
-            Player::find($id)->update([
-                'name' => $request->name,
-                'position' => $request->position,
-                'country_id' => $request->country_id,
-                'team_id' => $request->team_id
-            ]);
-
+            Player::find($id)->update($request->all());
             return Redirect::route('adm.player.index');
         }
     }

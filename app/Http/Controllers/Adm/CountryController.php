@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Adm\CountryRequest;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -23,10 +24,8 @@ class CountryController extends Controller
         return Inertia::render('Adm/Country/create');
     }
 
-    public function store(Request $request)
+    public function store(CountryRequest $request)
     {
-        $request->validate(['name' => 'required'], ['name.required' => 'Nome obrigatório.']);
-
         Country::create([
             'name' => $request->name,
         ]);
@@ -41,10 +40,8 @@ class CountryController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(CountryRequest $request, $id)
     {
-        $request->validate(['name' => 'required'], ['name.required' => 'Nome obrigatório.']);
-
         if($id){
             Country::find($id)->update([
                 'name' => $request->name,

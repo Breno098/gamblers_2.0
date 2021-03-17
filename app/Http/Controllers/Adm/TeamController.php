@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Adm\TeamRequest;
 use App\Models\Competition;
 use App\Models\Country;
+use App\Models\Player;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Team;
@@ -35,20 +37,8 @@ class TeamController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(TeamRequest $request)
     {
-        $request->validate([
-            'name'       => 'required',
-            'country_id' => 'required',
-            'competitions' => 'required',
-            'photo'      => 'image'
-        ], [
-            'name.required' => 'Nome obrigatório.',
-            'country_id.required' => 'Escolha um país.',
-            'competitions.required' => 'Selecione as competição.',
-            'photo.image' => 'Parece que o arquivo não é uma imagem. Escolha uma foto e tente novamente.'
-        ]);
-
         $name_photo = Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName();
 
         if(!$request->file('photo')->storeAs('teams', $name_photo)){
@@ -61,6 +51,11 @@ class TeamController extends Controller
             'name_photo' => $name_photo
         ]);
         $team->competitions()->sync($request->competitions);
+
+        Player::create([
+            'name' => 'Gol Contra',
+            'team_id' => $team->id,
+        ]);
 
         return Redirect::route('adm.team.index');
     }
@@ -83,18 +78,8 @@ class TeamController extends Controller
 
     }
 
-    public function updateWithImage(Request $request)
+    public function updateWithImage(TeamRequest $request)
     {
-        $request->validate([
-            'name'       => 'required',
-            'country_id' => 'required',
-            'competitions'    => 'required',
-        ], [
-            'name.required' => 'Nome obrigatório.',
-            'country_id.required' => 'Escolha um país.',
-            'competitions.required' => 'Selecione as ligas.',
-        ]);
-
         $name_photo = $request->file('photo') ? Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName() : false;
 
         if($name_photo && !$request->file('photo')->storeAs('teams', $name_photo)){

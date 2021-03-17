@@ -42,8 +42,8 @@
                                             {{row.item.position}}
                                         </v-chip>
                                     </td>
-                                    <td>{{row.item.team.name}}</td>
-                                    <td>{{row.item.country.name}}</td>
+                                    <td>{{row.item.team ? row.item.team.name : ''}}</td>
+                                    <td>{{row.item.country ? row.item.country.name : ''}}</td>
                                     <td>
                                         <v-menu transition="slide-y-transition" bottom>
                                             <template v-slot:activator="{ on, attrs }">

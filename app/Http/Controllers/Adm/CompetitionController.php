@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Adm\CompetitionRequest;
 use App\Models\Competition;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -25,16 +26,8 @@ class CompetitionController extends Controller
         return Inertia::render('Adm/Competition/create');
     }
 
-    public function store(Request $request)
+    public function store(CompetitionRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'season' => 'required'
-        ], [
-            'name.required' => 'Nome obrigatório.',
-            'season.required' => 'Informe a temporada.'
-        ]);
-
         $name_photo = $request->file('photo') ? Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName() : false;
 
         if($name_photo && !$request->file('photo')->storeAs('competitions', $name_photo)){
@@ -62,16 +55,8 @@ class CompetitionController extends Controller
     {
     }
 
-    public function updateWithImage(Request $request)
+    public function updateWithImage(CompetitionRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'season' => 'required'
-        ], [
-            'name.required' => 'Nome obrigatório.',
-            'season.required' => 'Informe a temporada.'
-        ]);
-
         $name_photo = $request->file('photo') ? Carbon::now()->format('YmdHis') . $request->file('photo')->getClientOriginalName() : false;
 
         if($name_photo && !$request->file('photo')->storeAs('competitions', $name_photo)){

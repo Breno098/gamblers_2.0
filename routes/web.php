@@ -10,7 +10,7 @@ use App\Http\Controllers\Adm\StadiumController;
 
 use App\Http\Controllers\Gambler\CompetitionController as GamblerCompetitionController;
 use App\Http\Controllers\Gambler\Dashboard as GamblerDashboard;
-
+use App\Http\Controllers\Gambler\GeneralController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -63,8 +63,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::get('/competitions', [GamblerCompetitionController::class, 'competitions'])->name('competitions');
         Route::get('/competition', [GamblerCompetitionController::class, 'competition'])->name('competition');
         Route::get('/game', [GamblerCompetitionController::class, 'game'])->name('game');
-
         Route::post('/storeGame', [GamblerCompetitionController::class, 'storeGame'])->name('store-game');
+
+        Route::get('/score-report', [GeneralController::class, 'scoreReport'])->name('score-report');
+        Route::get('/score-rules', [GeneralController::class, 'scoreRules'])->name('score-rules');
     });
 });
 

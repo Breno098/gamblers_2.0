@@ -211,8 +211,8 @@
                                 </v-card>
                             </v-col>
                             <v-col>
-                                <v-btn block v-on:click="dialog = true" :disabled="game.status !== 'open'">
-                                    Apostar
+                                <v-btn block v-on:click="enableDialog" :disabled="diabledBet(game)">
+                                    {{ disabled ? 'Jogo encerrado' : 'Apostar' }}
                                 </v-btn>
                             </v-col>
                         </v-row>
@@ -259,6 +259,7 @@
 <script>
     import AppLayout from '@/Layouts/AppLayout'
     import moment from 'moment'
+    import { differenceInMinutes, parse } from 'date-fns';
 
     export default {
         components: {
@@ -269,6 +270,7 @@
         },
         data: () => ({
             dialog: false,
+            disabled: false,
             goalsHome: [],
             goalsGuest: [],
             headers: [{
@@ -294,7 +296,23 @@
             }
         },
         methods: {
+            diabledBet(game){
+                return game.status !== 'open' || differenceInMinutes( parse(game.date + ' ' + game.time, 'yyyy-MM-dd HH:mm', new Date()),  new Date()) < 10;
+            },
+            enableDialog(){
+                this.disabled = this.diabledBet(this.game);
+                if(this.disabled){
+                    return;
+                }
+                this.dialog = true;
+            },
             storeGame(){
+                this.disabled = this.diabledBet(this.game);
+
+                if(this.disabled){
+                    return;
+                }
+
                 this.$inertia.post( route('gambler.store-game'), {
                     game: this.game,
                     goalsHome: this.goalsHome,

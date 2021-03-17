@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Gambler;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Adm\BetRequest;
 use App\Models\Competition;
 use App\Models\Game;
 use App\Models\Goal;
@@ -59,7 +60,7 @@ class CompetitionController extends Controller
         ]);
     }
 
-    public function storeGame(Request $request, ScoreService $scoreService)
+    public function storeGame(BetRequest $request, ScoreService $scoreService)
     {
         $scoreService->saveRequest($request, 'bet', Auth::user()->id);
 

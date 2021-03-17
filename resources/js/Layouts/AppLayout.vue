@@ -85,6 +85,8 @@
                 items: [
                     { title: 'Dashboard',  icon: 'mdi-user', route: 'gambler.dashboard' },
                     { title: 'Competições',  icon: 'mdi-user', route: 'gambler.competitions' },
+                    { title: 'Pontuações',  icon: 'mdi-user', route: 'gambler.score-report' },
+                    { title: 'Regras',  icon: 'mdi-user', route: 'gambler.score-rules' },
                 ]
             }
         ],

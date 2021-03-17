@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Adm;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class GameRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class GameRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::user()->type === 'adm';
     }
 
     /**
